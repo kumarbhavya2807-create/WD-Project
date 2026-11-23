@@ -1,0 +1,1170 @@
+{
+ "users": [
+  {
+   "id": "u_c0681873",
+   "name": "Super Admin",
+   "email": "superadmin@college.edu",
+   "collegeId": "ADMIN000",
+   "role": "superadmin",
+   "orgId": null,
+   "salt": "db8b18eb9e72df2735f9b59c1c12edf2",
+   "hash": "2a549942cd0c596fc351c015e543088b32d163e102a3beaedb6341a2643fc38f6fd50221f9ddf54134a2563df2e34007d7d847ae105bd9d744338d7acaf4fd4a",
+   "createdAt": "2026-11-23T17:28:01.102Z"
+  },
+  {
+   "id": "u_102c5633",
+   "name": "Adaa Admin",
+   "email": "adaa@college.edu",
+   "collegeId": "ADM001",
+   "role": "admin",
+   "orgId": "adaa",
+   "salt": "9b327634a21296a775a93277ed090b1c",
+   "hash": "7d50b32a0bf990e26953ff7e7cd90334d75086289ed6ec6c09a31df9e58080df89a42908f0aa0de1c51b362a6c94f9ef60e42eeead507fd64b5db662337255d1",
+   "createdAt": "2026-11-23T17:28:01.151Z"
+  },
+  {
+   "id": "u_f86e5556",
+   "name": "Amplif-i Admin",
+   "email": "amplifi@college.edu",
+   "collegeId": "ADM002",
+   "role": "admin",
+   "orgId": "amplifi",
+   "salt": "3709f01dcfb51b585774287e66d77ffb",
+   "hash": "e83483a6dd5324777aae5f12591a3ba7f42cdafa166f90b25076f3f814701382486ebe2ea156a7dab7244b7de6e0fe505fef119a1b38c8c2c99ba17c85499bb0",
+   "createdAt": "2026-11-23T17:28:01.206Z"
+  },
+  {
+   "id": "u_d946060b",
+   "name": "Analytica Admin",
+   "email": "analytica@college.edu",
+   "collegeId": "ADM003",
+   "role": "admin",
+   "orgId": "analytica",
+   "salt": "d8f3799c46b2520d3fd2ae8b7036223a",
+   "hash": "a17dfd70b5358c1747cee2f2fe90cfd386e4db9e9eb53e8529346c53bc54a01d9d8a0481352511243ba530e2c3a608ec6902793843bb4d9062693551816b2a23",
+   "createdAt": "2026-11-23T17:28:01.260Z"
+  },
+  {
+   "id": "u_d6a2a985",
+   "name": "Appl-i Admin",
+   "email": "appli@college.edu",
+   "collegeId": "ADM004",
+   "role": "admin",
+   "orgId": "appli",
+   "salt": "250426a1178670da616a0e47b0947221",
+   "hash": "a19c17e26f7bb5f2270cdafa5c1b7dd38f09c5dbc1a937667771242a76ccc3fc4e79c35134abf6559d9cdecdb53f7dee3b67e77f3e1a1823001cfb1645a13a27",
+   "createdAt": "2026-11-23T17:28:01.314Z"
+  },
+  {
+   "id": "u_de245f0f",
+   "name": "BlueOcean Admin",
+   "email": "blueocean@college.edu",
+   "collegeId": "ADM005",
+   "role": "admin",
+   "orgId": "blueocean",
+   "salt": "3f2459036e11035f6acf079fc1d6bbda",
+   "hash": "b4fafdcb0f7badf62d40b9c6c9d4f241b82c8e354501c208660d39cd58879bbc62dd9f4a6831fbda75fda3ccd5573cbb7a9eb94d16d78f5511b23b5d192a3ded",
+   "createdAt": "2026-11-23T17:28:01.359Z"
+  },
+  {
+   "id": "u_09748779",
+   "name": "Econom-i Admin",
+   "email": "economi@college.edu",
+   "collegeId": "ADM006",
+   "role": "admin",
+   "orgId": "economi",
+   "salt": "adc0a8cf9a97dc5a3f7aad55c18be1bf",
+   "hash": "cb5db3ef537cdaa5350be480227016dacf7e9ff799ec63804d5d774f1becdc775e0b95c4d412719ff9672a890b24a42995c64080780ef9b03bf6f90e4d48f350",
+   "createdAt": "2026-11-23T17:28:01.398Z"
+  },
+  {
+   "id": "u_8a3ace44",
+   "name": "Finance & Investment Club Admin",
+   "email": "fic@college.edu",
+   "collegeId": "ADM007",
+   "role": "admin",
+   "orgId": "fic",
+   "salt": "1336d6e857d65db95f6186074e537759",
+   "hash": "c2866f893b41487451a52cf83ce0042cbcf271072a0da7359a0a277f7799ec25d48611782383d2550aa98103cc99d9069fc4f41c912d12dadb0b24a6b98acbbc",
+   "createdAt": "2026-11-23T17:28:01.435Z"
+  },
+  {
+   "id": "u_0b1eb3a7",
+   "name": "Impulse Admin",
+   "email": "impulse@college.edu",
+   "collegeId": "ADM008",
+   "role": "admin",
+   "orgId": "impulse",
+   "salt": "86a87be1f1da32c517f58efee0ce607a",
+   "hash": "b406f93aa3a1f965b11a7b8effb3de79dab881f16e02a585562774b019924059c33ae67439e68dc1b074b0ab030ca4cd8557ec65403d7aa42309dba6aa92df17",
+   "createdAt": "2026-11-23T17:28:01.472Z"
+  },
+  {
+   "id": "u_fd60d17b",
+   "name": "Inquizit-I Admin",
+   "email": "inquizit@college.edu",
+   "collegeId": "ADM009",
+   "role": "admin",
+   "orgId": "inquizit",
+   "salt": "b5fbd55004cf70bfca49f71984e5cf5a",
+   "hash": "ce5be0abe2f12de3c582e536a04b976b54434a0c6d6ab0030b7c46dcf2e4ed4d78712519148e34b880c126246a70b4ff2e7acbebf485d193f9cae4b23f1393ea",
+   "createdAt": "2026-11-23T17:28:01.507Z"
+  },
+  {
+   "id": "u_1543a082",
+   "name": "Literar-i Admin",
+   "email": "literari@college.edu",
+   "collegeId": "ADM010",
+   "role": "admin",
+   "orgId": "literari",
+   "salt": "7fd14775d9a0122e9a22fd35671aff64",
+   "hash": "feecd22765da3956cf60fe42bdc1d92dffce6c812df2f0db6708359a690400acd88cbe4659ed3ddac8d74ca358c3c40cb7792a7c001d541491f4fd9543306866",
+   "createdAt": "2026-11-23T17:28:01.552Z"
+  },
+  {
+   "id": "u_cf0172c8",
+   "name": "Photon Admin",
+   "email": "photon@college.edu",
+   "collegeId": "ADM011",
+   "role": "admin",
+   "orgId": "photon",
+   "salt": "a8090ff7a8fb3eabab077d0d3c85d3e2",
+   "hash": "56aa7f6d450d5b62d6bffa00b36c965577a9a673ea51ed54b64b6b0390a3e975207ea182e8852c7078421c6b5b4264c200ebd49b8ae35db05be007f91df9642b",
+   "createdAt": "2026-11-23T17:28:01.588Z"
+  },
+  {
+   "id": "u_43fc245b",
+   "name": "Cultural Committee Admin",
+   "email": "cultural@college.edu",
+   "collegeId": "ADM012",
+   "role": "admin",
+   "orgId": "cultural",
+   "salt": "a4f988b0b870e6ebd16ee21e78741fef",
+   "hash": "5b30857d9f7ec0ad0c3da043a31d90c362184c79aefbdbceab365c22fc077591e4ad4d0a52c24028e94afecaf5948829364133085338b4f55777fa8903208cf5",
+   "createdAt": "2026-11-23T17:28:01.628Z"
+  },
+  {
+   "id": "u_296924a0",
+   "name": "Infrastructure Committee Admin",
+   "email": "infra@college.edu",
+   "collegeId": "ADM013",
+   "role": "admin",
+   "orgId": "infra",
+   "salt": "28a898c05d00432fe6ac20ff5517cfef",
+   "hash": "b293dd29e4afed47a97969a73c738690410afed1bb4596ae0ff4f20bfb3de86f1feeb9e0323982b21aeb77e08d61e2040a6012ca7f26e40fd0ff36961b632dd6",
+   "createdAt": "2026-11-23T17:28:01.665Z"
+  },
+  {
+   "id": "u_8b7990f4",
+   "name": "Sports Committee Admin",
+   "email": "sports@college.edu",
+   "collegeId": "ADM014",
+   "role": "admin",
+   "orgId": "sports",
+   "salt": "1d5562803b4d2aef1cf81ba375a4b3a7",
+   "hash": "d8bf56d0623cac973fea9992f995bb44e85d2f916fc0862e14b0a70851f7667ee0744df41688308e6c73a577d3bc88ddcb1a4d86a8e4278e830033b9e1677d8b",
+   "createdAt": "2026-11-23T17:28:01.701Z"
+  },
+  {
+   "id": "u_81ee7293",
+   "name": "Social Impact Committee (Aasha) Admin",
+   "email": "aasha@college.edu",
+   "collegeId": "ADM015",
+   "role": "admin",
+   "orgId": "aasha",
+   "salt": "56c10e847368d28004c1304f8396ba83",
+   "hash": "345677825238252b2f177558f10d0967d15e0b8dcaf74d857b739e050eb9f649aac41783547c75ba0d88ab46b4fd6a5d1812b76a6899de41c0d2c5f33c886753",
+   "createdAt": "2026-11-23T17:28:01.741Z"
+  },
+  {
+   "id": "u_c7956eb7",
+   "name": "E-Cell Admin",
+   "email": "ecell@college.edu",
+   "collegeId": "ADM016",
+   "role": "admin",
+   "orgId": "ecell",
+   "salt": "ab10f791274c10a685dd850e2fdba05c",
+   "hash": "1760ea5a9bef11967fca820a2ef0cd48fc93935112edee3ed408f5f5d71ea0250214c02cdf5708f292b1dcf81a4e38c3ea75f750fa71ce1001d27a017d3cb147",
+   "createdAt": "2026-11-23T17:28:01.792Z"
+  },
+  {
+   "id": "u_4d37e617",
+   "name": "Media, PR & Alumni Committee Admin",
+   "email": "mpa@college.edu",
+   "collegeId": "ADM017",
+   "role": "admin",
+   "orgId": "mpa",
+   "salt": "675207d5a9e93c57d378b69a9c2ee95b",
+   "hash": "1c1bbbe2182a7f5f39afdb7a54e3465b5ee387cf61306687fb24842152968b55eca32a40cb8529f81e4ad58ae5e018cddfe4da0eedb71dd841dc2eef516337ae",
+   "createdAt": "2026-11-23T17:28:01.847Z"
+  },
+  {
+   "id": "u_80ded0ed",
+   "name": "Demo Student",
+   "email": "demo@college.edu",
+   "collegeId": "S2024001",
+   "role": "student",
+   "orgId": null,
+   "salt": "ee3f1cbcdb1986d674a076f840de6efb",
+   "hash": "c1651b284f5b2abaf76363070c0a07d5ced5f9877e31ff7c94820140dc3a02e54f541111fa0a8c228e8e2538543a8071a5e93b434767f9c42d2cd24c53f7e4da",
+   "createdAt": "2026-11-23T17:28:01.901Z"
+  },
+  {
+   "id": "u_12f688df",
+   "name": "Bhavya Kumar",
+   "email": "bhavya@college.edu",
+   "collegeId": "S2023014",
+   "role": "student",
+   "orgId": null,
+   "salt": "33efc1e7d269b5efe4c4cd4871453964",
+   "hash": "2e8104dff932610447a8489182e61483bb39a6b2696bddcf625a271477002de887764dbeac4f3adf991ae5c46ab0a7544b3e6e1134d38763e74816ddeaae1600",
+   "createdAt": "2026-11-23T17:28:01.962Z"
+  },
+  {
+   "id": "u_621d8fb1",
+   "name": "Rohan Mehta",
+   "email": "rohan@college.edu",
+   "collegeId": "S2024022",
+   "role": "student",
+   "orgId": null,
+   "salt": "b7baa51420f87395b7d8f229cd57906a",
+   "hash": "be43673c3b2f0f2dacb1117578cc02da41115cb4aeac0b38310eeae3857d5d38f7e2242d0c44d77c2517759243be54c0992a11e99f899551245b909877f6e8ab",
+   "createdAt": "2026-11-23T17:28:02.007Z"
+  },
+  {
+   "id": "u_5c7178ec",
+   "name": "Ananya Iyer",
+   "email": "ananya@college.edu",
+   "collegeId": "S2024037",
+   "role": "student",
+   "orgId": null,
+   "salt": "94bfda57b876c1f5a85afaa5eb2d3319",
+   "hash": "5093dc513154808d915ae2d2bcaaffaed6d4c7d3c72f1885b491ac04060ca0625bf2ee1b4033d752028b697586c35432646d4cf923f1e31269c291b92b7db7b3",
+   "createdAt": "2026-11-23T17:28:02.052Z"
+  },
+  {
+   "id": "u_e0820747",
+   "name": "Kabir Shah",
+   "email": "kabir@college.edu",
+   "collegeId": "S2023051",
+   "role": "student",
+   "orgId": null,
+   "salt": "7d9eb0f002a2e7b443563746fb71e6e2",
+   "hash": "3e00f01a7f925c29e71a61f82c167467616992539c28a74b2c8d216f2623197dc3cc0ff0f37cb4afbb94469d0c018dc9581aa4f61ad3befea844cc8082558fce",
+   "createdAt": "2026-11-23T17:28:02.101Z"
+  },
+  {
+   "id": "u_3625cbc7",
+   "name": "Meera Nair",
+   "email": "meera@college.edu",
+   "collegeId": "S2024063",
+   "role": "student",
+   "orgId": null,
+   "salt": "ad5d1bf0186a09b8a5af72800f850eea",
+   "hash": "267c071ae902f0487b474f7db3b041cffbc6df82301d3ea448b9d0c58037a75a8972187537a3584f4d94271999f739ffbed903ebc6c9b02e4a3e111e726a9ff0",
+   "createdAt": "2026-11-23T17:28:02.147Z"
+  },
+  {
+   "id": "u_0883a819",
+   "name": "Aarav Singh",
+   "email": "aarav@college.edu",
+   "collegeId": "S2024071",
+   "role": "student",
+   "orgId": null,
+   "salt": "5b97be5bd3a25d501ed095a6589fb746",
+   "hash": "1f971318951b0555b4ed9610b3eabdfdeb013a66fcce25ada706ab9cb3459be22c856bc98ea8f513e925b051b2848b9e9a078aa3dfe26ff7ebdda3e22788b76f",
+   "createdAt": "2026-11-23T17:28:02.195Z"
+  },
+  {
+   "id": "u_9e4d60c8",
+   "name": "Isha Verma",
+   "email": "isha@college.edu",
+   "collegeId": "S2023088",
+   "role": "student",
+   "orgId": null,
+   "salt": "9d85a7b0df256ea046928f61305c564f",
+   "hash": "2686a9528bd0e661b40a657ca7bfcb908770357c0f9eb55cc5ab5f83e0a10cb9f60be116c2738c343113a98dbe174ef1c7268cb7081077ff1458b8f544ba599b",
+   "createdAt": "2026-11-23T17:28:02.239Z"
+  }
+ ],
+ "orgs": [
+  {
+   "id": "adaa",
+   "name": "Adaa",
+   "type": "Club",
+   "short": "AD"
+  },
+  {
+   "id": "amplifi",
+   "name": "Amplif-i",
+   "type": "Club",
+   "short": "AM"
+  },
+  {
+   "id": "analytica",
+   "name": "Analytica",
+   "type": "Club",
+   "short": "AN"
+  },
+  {
+   "id": "appli",
+   "name": "Appl-i",
+   "type": "Club",
+   "short": "AP"
+  },
+  {
+   "id": "blueocean",
+   "name": "BlueOcean",
+   "type": "Club",
+   "short": "BO"
+  },
+  {
+   "id": "economi",
+   "name": "Econom-i",
+   "type": "Club",
+   "short": "EC"
+  },
+  {
+   "id": "fic",
+   "name": "Finance & Investment Club",
+   "type": "Club",
+   "short": "FI"
+  },
+  {
+   "id": "impulse",
+   "name": "Impulse",
+   "type": "Club",
+   "short": "IM"
+  },
+  {
+   "id": "inquizit",
+   "name": "Inquizit-I",
+   "type": "Club",
+   "short": "IQ"
+  },
+  {
+   "id": "literari",
+   "name": "Literar-i",
+   "type": "Club",
+   "short": "LI"
+  },
+  {
+   "id": "photon",
+   "name": "Photon",
+   "type": "Club",
+   "short": "PH"
+  },
+  {
+   "id": "cultural",
+   "name": "Cultural Committee",
+   "type": "Committee",
+   "short": "CC"
+  },
+  {
+   "id": "infra",
+   "name": "Infrastructure Committee",
+   "type": "Committee",
+   "short": "IC"
+  },
+  {
+   "id": "sports",
+   "name": "Sports Committee",
+   "type": "Committee",
+   "short": "SC"
+  },
+  {
+   "id": "aasha",
+   "name": "Social Impact Committee (Aasha)",
+   "type": "Committee",
+   "short": "SI"
+  },
+  {
+   "id": "ecell",
+   "name": "E-Cell",
+   "type": "Committee",
+   "short": "EL"
+  },
+  {
+   "id": "mpa",
+   "name": "Media, PR & Alumni Committee",
+   "type": "Committee",
+   "short": "MP"
+  }
+ ],
+ "events": [
+  {
+   "id": "e_097ed5d3",
+   "orgId": "adaa",
+   "title": "Nukkad Naatak Practice",
+   "category": "Cultural",
+   "mode": "Offline",
+   "venue": "Open Air Amphitheatre",
+   "eventDate": "2026-11-29",
+   "deadline": "2026-11-26",
+   "teamMin": 4,
+   "teamMax": 10,
+   "capacity": 60,
+   "featured": false,
+   "closed": false,
+   "description": "Join Adaa for an open street-play practice. Form a troupe, bring a 5-minute script idea and rehearse with feedback from seniors ahead of the annual Nukkad showcase.",
+   "prize": "Slot in the annual Nukkad showcase",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Script idea submission",
+     "type": "submission",
+     "description": "Upload a one-page synopsis of your nukkad theme.",
+     "dueDate": "2026-11-26"
+    },
+    {
+     "name": "Practice showcase",
+     "type": "live",
+     "description": "Perform a 5-minute act in front of the Adaa panel.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.239Z"
+  },
+  {
+   "id": "e_c4503597",
+   "orgId": "amplifi",
+   "title": "Jamming Session",
+   "category": "Cultural",
+   "mode": "Offline",
+   "venue": "Music Room, Block B",
+   "eventDate": "2026-11-28",
+   "deadline": "2026-11-26",
+   "teamMin": 1,
+   "teamMax": 5,
+   "capacity": 40,
+   "featured": false,
+   "closed": false,
+   "description": "An open jam for singers, guitarists, drummers and everything in between. Register solo or as a band and take the stage at the weekly Amplif-i jam night.",
+   "prize": "Feature slot at Amplif-i Live",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Audition clip",
+     "type": "submission",
+     "description": "Share a 60-second clip (link or file) of you or your band.",
+     "dueDate": "2026-11-26"
+    },
+    {
+     "name": "Jam night",
+     "type": "live",
+     "description": "Perform two songs live.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.239Z"
+  },
+  {
+   "id": "e_e56ee5e0",
+   "orgId": "analytica",
+   "title": "Guesstimate",
+   "category": "Business",
+   "mode": "Online",
+   "venue": "Microsoft Teams",
+   "eventDate": "2026-12-01",
+   "deadline": "2026-11-28",
+   "teamMin": 1,
+   "teamMax": 2,
+   "capacity": 100,
+   "featured": false,
+   "closed": false,
+   "description": "Estimate the unestimable! Market-sizing and guesstimate questions in the style of consulting interviews. Solo or pairs.",
+   "prize": "Certificates + Analytica goodies",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Written guesstimates",
+     "type": "submission",
+     "description": "Solve three guesstimates and upload your working as a PDF.",
+     "dueDate": "2026-11-28"
+    },
+    {
+     "name": "Live guesstimate finals",
+     "type": "live",
+     "description": "Present your approach live to a panel.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_7aac3fd4",
+   "orgId": "appli",
+   "title": "Triad Takeover Case Comp",
+   "category": "Tech",
+   "mode": "Offline",
+   "venue": "Seminar Hall 2",
+   "eventDate": "2026-12-07",
+   "deadline": "2026-12-02",
+   "teamMin": 3,
+   "teamMax": 4,
+   "capacity": 90,
+   "featured": true,
+   "closed": false,
+   "description": "A product-and-tech case competition in teams of three or four. Craft a go-to-market and tech roadmap for a real campus problem and pitch to industry judges.",
+   "prize": "Prize pool Rs 30,000 + internship interviews",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Ideation deck",
+     "type": "submission",
+     "description": "Submit a 10-slide deck outlining your solution.",
+     "dueDate": "2026-12-02"
+    },
+    {
+     "name": "Prototype pitch",
+     "type": "submission",
+     "description": "Upload a prototype link and a 3-minute demo video.",
+     "dueDate": "2026-12-05"
+    },
+    {
+     "name": "Grand finale",
+     "type": "live",
+     "description": "Final pitch in front of industry judges.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_0fb46fa0",
+   "orgId": "blueocean",
+   "title": "Marketing Marvel Case Comp",
+   "category": "Business",
+   "mode": "Offline",
+   "venue": "Lecture Theatre 4",
+   "eventDate": "2026-12-05",
+   "deadline": "2026-11-30",
+   "teamMin": 2,
+   "teamMax": 4,
+   "capacity": 80,
+   "featured": true,
+   "closed": false,
+   "description": "Build a marketing strategy for a brand under real constraints. Positioning, channels, budget, and a creative hook. Top teams present live.",
+   "prize": "Rs 20,000 + brand mentorship",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Strategy deck",
+     "type": "submission",
+     "description": "Upload your marketing strategy deck (max 12 slides).",
+     "dueDate": "2026-11-30"
+    },
+    {
+     "name": "Live pitch",
+     "type": "live",
+     "description": "Pitch your plan to the BlueOcean panel.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_da443044",
+   "orgId": "economi",
+   "title": "Microeconomics Exam Revision",
+   "category": "Study",
+   "mode": "Online",
+   "venue": "Google Meet",
+   "eventDate": "2026-11-26",
+   "deadline": "2026-11-25",
+   "teamMin": 1,
+   "teamMax": 1,
+   "capacity": 150,
+   "featured": false,
+   "closed": false,
+   "description": "A guided revision marathon covering demand, cost, market structures and game theory. Solve past-paper problems with Econom-i seniors.",
+   "prize": "Revision pack for all attendees",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Revision session",
+     "type": "live",
+     "description": "Join the live session and solve problems with mentors.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_6a9d7f01",
+   "orgId": "fic",
+   "title": "FinOpoly",
+   "category": "Business",
+   "mode": "Offline",
+   "venue": "Finance Lab",
+   "eventDate": "2026-12-03",
+   "deadline": "2026-11-29",
+   "teamMin": 2,
+   "teamMax": 3,
+   "capacity": 60,
+   "featured": false,
+   "closed": false,
+   "description": "A finance-themed board game where you buy firms, manage risk and respond to market shocks. Learn valuation by playing.",
+   "prize": "Trophies + investing workshop passes",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Prelims quiz",
+     "type": "live",
+     "description": "A rapid-fire finance quiz to select the top teams.",
+     "dueDate": null
+    },
+    {
+     "name": "FinOpoly finals",
+     "type": "live",
+     "description": "Play the board game finals.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_ecaf9887",
+   "orgId": "impulse",
+   "title": "Dance Practice",
+   "category": "Cultural",
+   "mode": "Offline",
+   "venue": "Dance Studio",
+   "eventDate": "2026-11-27",
+   "deadline": "2026-11-25",
+   "teamMin": 1,
+   "teamMax": 8,
+   "capacity": 50,
+   "featured": false,
+   "closed": false,
+   "description": "Open practice for all dance forms ahead of the annual showcase. Come solo or with a crew and work on your choreography.",
+   "prize": "Showcase slot at the annual fest",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Choreography preview",
+     "type": "live",
+     "description": "Show a 2-minute preview to the Impulse core team.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_8b852c35",
+   "orgId": "inquizit",
+   "title": "Freshers Quiz",
+   "category": "Study",
+   "mode": "Offline",
+   "venue": "Main Auditorium",
+   "eventDate": "2026-12-02",
+   "deadline": "2026-11-29",
+   "teamMin": 1,
+   "teamMax": 3,
+   "capacity": 120,
+   "featured": false,
+   "closed": false,
+   "description": "The campus-wide quiz for freshers: general knowledge, pop culture, business and sports. Teams of up to three.",
+   "prize": "Gift hampers",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Written prelims",
+     "type": "live",
+     "description": "A written round to pick the top six teams.",
+     "dueDate": null
+    },
+    {
+     "name": "Stage finals",
+     "type": "live",
+     "description": "Buzzer-round finals on stage.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_0a3880c5",
+   "orgId": "literari",
+   "title": "BizTech Round Table",
+   "category": "Tech",
+   "mode": "Offline",
+   "venue": "Conference Room 1",
+   "eventDate": "2026-12-04",
+   "deadline": "2026-12-01",
+   "teamMin": 1,
+   "teamMax": 1,
+   "capacity": 40,
+   "featured": false,
+   "closed": false,
+   "description": "A moderated round table on AI, fintech and the future of business. Submit your position note and debate with peers.",
+   "prize": "Certificate of participation + networking dinner",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Position note",
+     "type": "submission",
+     "description": "Upload a 1-page position note on the theme.",
+     "dueDate": "2026-12-01"
+    },
+    {
+     "name": "Round table",
+     "type": "live",
+     "description": "Participate in the moderated discussion.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_82c3a0cc",
+   "orgId": "photon",
+   "title": "Campus Photo Walk",
+   "category": "Cultural",
+   "mode": "Offline",
+   "venue": "Main Gate",
+   "eventDate": "2026-11-30",
+   "deadline": "2026-11-28",
+   "teamMin": 1,
+   "teamMax": 2,
+   "capacity": 50,
+   "featured": false,
+   "closed": false,
+   "description": "A guided golden-hour walk around campus. Shoot, edit and submit your best three frames for the Photon gallery.",
+   "prize": "Gallery feature + prints",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Photo walk",
+     "type": "live",
+     "description": "Join the walk at the main gate.",
+     "dueDate": null
+    },
+    {
+     "name": "Photo submission",
+     "type": "submission",
+     "description": "Submit your best three frames.",
+     "dueDate": "2026-12-04"
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_0663b1ad",
+   "orgId": "cultural",
+   "title": "Diwali",
+   "category": "Cultural",
+   "mode": "Offline",
+   "venue": "Central Lawn",
+   "eventDate": "2026-12-13",
+   "deadline": "2026-12-05",
+   "teamMin": 1,
+   "teamMax": 6,
+   "capacity": 300,
+   "featured": true,
+   "closed": false,
+   "description": "The Diwali night. Rangoli, diya decoration, performances and food. Register your act or your team for the cultural evening.",
+   "prize": "Trophies for best performance",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Act proposal",
+     "type": "submission",
+     "description": "Submit details of your act or stall.",
+     "dueDate": "2026-12-05"
+    },
+    {
+     "name": "Auditions",
+     "type": "live",
+     "description": "Audition in front of the Cultural Committee.",
+     "dueDate": null
+    },
+    {
+     "name": "Diwali Night",
+     "type": "live",
+     "description": "Final performances.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_64144041",
+   "orgId": "infra",
+   "title": "Infra Case Quest",
+   "category": "Business",
+   "mode": "Offline",
+   "venue": "Seminar Hall 1",
+   "eventDate": "2026-12-08",
+   "deadline": "2026-12-03",
+   "teamMin": 2,
+   "teamMax": 4,
+   "capacity": 80,
+   "featured": false,
+   "closed": false,
+   "description": "Solve a real infrastructure planning problem: sustainable campus mobility. Teams of two to four.",
+   "prize": "Rs 15,000 + facility visit",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Case solution",
+     "type": "submission",
+     "description": "Submit your written solution (max 8 pages).",
+     "dueDate": "2026-12-03"
+    },
+    {
+     "name": "Finals",
+     "type": "live",
+     "description": "Present to the Infrastructure Committee and faculty.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_1d0e8b95",
+   "orgId": "sports",
+   "title": "Section Wars: Tennis",
+   "category": "Sports",
+   "mode": "Offline",
+   "venue": "Tennis Court",
+   "eventDate": "2026-12-01",
+   "deadline": "2026-11-27",
+   "teamMin": 1,
+   "teamMax": 2,
+   "capacity": 32,
+   "featured": true,
+   "closed": false,
+   "description": "Singles and doubles tennis between sections. Represent your section across group stage, knockouts and the final.",
+   "prize": "Section Wars points + trophy",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Group stage",
+     "type": "live",
+     "description": "Round robin within groups.",
+     "dueDate": null
+    },
+    {
+     "name": "Knockouts",
+     "type": "live",
+     "description": "Single elimination.",
+     "dueDate": null
+    },
+    {
+     "name": "Final",
+     "type": "live",
+     "description": "Section Wars final.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_7ca01031",
+   "orgId": "aasha",
+   "title": "E-Impetus",
+   "category": "Social",
+   "mode": "Hybrid",
+   "venue": "Seminar Hall 3 / Zoom",
+   "eventDate": "2026-12-11",
+   "deadline": "2026-12-06",
+   "teamMin": 2,
+   "teamMax": 4,
+   "capacity": 60,
+   "featured": false,
+   "closed": false,
+   "description": "Pitch a social enterprise idea that creates measurable local impact. Mentors from the Aasha network guide shortlisted teams.",
+   "prize": "Seed grant of Rs 25,000",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Proposal",
+     "type": "submission",
+     "description": "Submit a 2-page impact proposal.",
+     "dueDate": "2026-12-06"
+    },
+    {
+     "name": "Pitch",
+     "type": "live",
+     "description": "Pitch to the Aasha judges.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_c6a9e3c6",
+   "orgId": "ecell",
+   "title": "Escelon Pitching",
+   "category": "Business",
+   "mode": "Offline",
+   "venue": "Incubation Centre",
+   "eventDate": "2026-12-09",
+   "deadline": "2026-12-04",
+   "teamMin": 2,
+   "teamMax": 4,
+   "capacity": 70,
+   "featured": true,
+   "closed": false,
+   "description": "The flagship E-Cell startup pitching competition. Pitch your idea to angel investors and win mentorship and funding intros.",
+   "prize": "Funding intros + Rs 50,000",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Idea deck",
+     "type": "submission",
+     "description": "Upload your pitch deck (PDF, max 10 slides).",
+     "dueDate": "2026-12-04"
+    },
+    {
+     "name": "Live pitch",
+     "type": "live",
+     "description": "Five-minute pitch plus Q&A.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "e_938cabcf",
+   "orgId": "mpa",
+   "title": "Alumni Session",
+   "category": "Social",
+   "mode": "Offline",
+   "venue": "Main Auditorium",
+   "eventDate": "2026-12-06",
+   "deadline": "2026-12-02",
+   "teamMin": 1,
+   "teamMax": 1,
+   "capacity": 150,
+   "featured": false,
+   "closed": false,
+   "description": "A fireside conversation with alumni from consulting, product and startups. Register for a seat and submit questions.",
+   "prize": "Networking opportunity",
+   "eligibility": "Open to all students of the college.",
+   "rounds": [
+    {
+     "name": "Alumni session",
+     "type": "live",
+     "description": "Attend the session and ask questions.",
+     "dueDate": null
+    }
+   ],
+   "currentRound": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  }
+ ],
+ "teams": [
+  {
+   "id": "t_51916704",
+   "eventId": "e_7aac3fd4",
+   "name": "Product Pirates",
+   "code": "3D0610",
+   "leaderId": "u_12f688df",
+   "members": [
+    "u_12f688df",
+    "u_621d8fb1",
+    "u_5c7178ec"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_dcd05760",
+   "eventId": "e_7aac3fd4",
+   "name": "Stack Overflowers",
+   "code": "2B07CF",
+   "leaderId": "u_e0820747",
+   "members": [
+    "u_e0820747",
+    "u_3625cbc7",
+    "u_0883a819"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_eb831bc2",
+   "eventId": "e_0fb46fa0",
+   "name": "Brand Builders",
+   "code": "9421D0",
+   "leaderId": "u_5c7178ec",
+   "members": [
+    "u_5c7178ec",
+    "u_9e4d60c8"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_37da4ad2",
+   "eventId": "e_c6a9e3c6",
+   "name": "Seed Round",
+   "code": "82411E",
+   "leaderId": "u_621d8fb1",
+   "members": [
+    "u_621d8fb1",
+    "u_e0820747"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_5c184efb",
+   "eventId": "e_1d0e8b95",
+   "name": "Section A Aces",
+   "code": "011D44",
+   "leaderId": "u_3625cbc7",
+   "members": [
+    "u_3625cbc7"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_3ed18451",
+   "eventId": "e_1d0e8b95",
+   "name": "Section B Smashers",
+   "code": "130521",
+   "leaderId": "u_0883a819",
+   "members": [
+    "u_0883a819"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_097298f7",
+   "eventId": "e_e56ee5e0",
+   "name": "Fermi Fans",
+   "code": "89B147",
+   "leaderId": "u_9e4d60c8",
+   "members": [
+    "u_9e4d60c8"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_2fc4e746",
+   "eventId": "e_8b852c35",
+   "name": "Quizzards",
+   "code": "8D4E14",
+   "leaderId": "u_12f688df",
+   "members": [
+    "u_12f688df",
+    "u_621d8fb1"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "t_b796eb3e",
+   "eventId": "e_938cabcf",
+   "name": "Ananya Iyer",
+   "code": "50591B",
+   "leaderId": "u_5c7178ec",
+   "members": [
+    "u_5c7178ec"
+   ],
+   "status": "active",
+   "roundReached": 0,
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  }
+ ],
+ "submissions": [],
+ "meetups": [
+  {
+   "id": "m_b4b47a87",
+   "title": "PGP vs IPM Football Match",
+   "category": "Sports",
+   "mode": "Offline",
+   "venue": "Main Football Ground",
+   "date": "2026-11-27",
+   "time": "17:30",
+   "description": "Friendly 7-a-side football, PGP vs IPM. Bring your jersey; teams are picked on the day. Cast your vote if you are in.",
+   "hostId": "u_12f688df",
+   "votes": {
+    "u_621d8fb1": "in",
+    "u_e0820747": "in",
+    "u_3625cbc7": "maybe"
+   },
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "m_0c2d7917",
+   "title": "Cricket Practice",
+   "category": "Sports",
+   "mode": "Offline",
+   "venue": "Nets, Sports Complex",
+   "date": "2026-11-25",
+   "time": "07:00",
+   "description": "Morning nets session for batting and bowling. Beginners welcome. Bring your own kit if you have it.",
+   "hostId": "u_621d8fb1",
+   "votes": {},
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  },
+  {
+   "id": "m_1b456835",
+   "title": "Statistics Sessions with Bhavya Kumar",
+   "category": "Study",
+   "mode": "Offline",
+   "venue": "Library Discussion Room 3",
+   "date": "2026-11-26",
+   "time": "19:00",
+   "description": "Peer-taught statistics sessions covering probability, distributions and hypothesis testing. Bring your questions and a calculator.",
+   "hostId": "u_12f688df",
+   "votes": {
+    "u_5c7178ec": "in"
+   },
+   "createdAt": "2026-11-23T17:28:02.240Z"
+  }
+ ],
+ "announcements": [
+  {
+   "id": "a_47757c24",
+   "text": "Registrations for Triad Takeover and Marketing Marvel case competitions close this week. Form your teams now.",
+   "type": "info",
+   "orgId": null,
+   "active": true,
+   "createdAt": "2026-11-23T17:28:02.240Z",
+   "authorId": "u_c0681873"
+  },
+  {
+   "id": "a_771899d0",
+   "text": "Diwali Night auditions open soon. Submit your act proposal before the deadline.",
+   "type": "event",
+   "orgId": "cultural",
+   "active": true,
+   "createdAt": "2026-11-23T17:28:02.240Z",
+   "authorId": "u_c0681873"
+  }
+ ],
+ "saved": [],
+ "sessions": {}
+}
