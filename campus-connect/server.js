@@ -18,8 +18,15 @@ const SHEETS_URL = process.env.SHEETS_WEBHOOK_URL || '';
 const SHEETS_SECRET = process.env.SHEETS_SECRET || 'change-me';
 const CATEGORIES = ['Tech', 'Cultural', 'Sports', 'Business', 'Study', 'Social'];
 const MODES = ['Online', 'Offline', 'Hybrid'];
-const DB_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
-const pool = DB_URL ? new (require('pg').Pool)({ connectionString: DB_URL, max: 5, idleTimeoutMillis: 10000 }) : null;
+const isPgUrl = u => /^postgres(ql)?:\/\//.test(u || '');
+if (process.env.SUPABASE_DB_URL && !isPgUrl(process.env.SUPABASE_DB_URL)) console.error('[db] SUPABASE_DB_URL is not a postgresql:// connection string; ignoring it');
+const DB_URL = [process.env.SUPABASE_DB_URL, process.env.DATABASE_URL, process.env.POSTGRES_URL].find(isPgUrl) || '';
+const pool = DB_URL ? new (require('pg').Pool)({
+  connectionString: DB_URL.replace(/[?&]sslmode=[^&]*/g, ''),
+  // Supabase/Neon require TLS; their poolers present certificates Node can't verify against its default CA bundle.
+  ssl: /localhost|127\.0\.0\.1/.test(DB_URL) ? false : { rejectUnauthorized: false },
+  max: 5, idleTimeoutMillis: 10000, connectionTimeoutMillis: 10000,
+}) : null;
 const txStore = new (require('async_hooks').AsyncLocalStorage)();
 if (!pool) fs.mkdirSync(UPLOADS, { recursive: true });
 
@@ -34,10 +41,10 @@ const str = (v, max = 5000) => (typeof v === 'string' ? v.trim().slice(0, max) :
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /* ---------- database ----------
- * With DATABASE_URL (Neon) the whole document lives in one Postgres row shared by every
+ * With SUPABASE_DB_URL (or DATABASE_URL) the whole document lives in one Postgres row shared by every
  * serverless instance. Reads re-fetch it only when its version changed; each mutating request
  * holds a row lock, so concurrent writes from different instances can never overwrite each other.
- * Without DATABASE_URL it falls back to a local JSON file. */
+ * Without a database URL it falls back to a local JSON file. */
 let db, dbVersion = 0;
 function load() {
   if (fs.existsSync(DB_FILE)) db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
