@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Campus event management: official club/committee events, student meetups, admin dashboard, Google Sheets sync",
   "main": "server.js",
-  "scripts": { "start": "node server.js", "dump": "node server.js --dump" },
-  "dependencies": { "express": "^4.19.2" }
+  "scripts": {
+    "start": "node server.js",
+    "dump": "node server.js --dump"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.23.1"
+  }
 }

@@ -18,7 +18,17 @@ const SHEETS_URL = process.env.SHEETS_WEBHOOK_URL || '';
 const SHEETS_SECRET = process.env.SHEETS_SECRET || 'change-me';
 const CATEGORIES = ['Tech', 'Cultural', 'Sports', 'Business', 'Study', 'Social'];
 const MODES = ['Online', 'Offline', 'Hybrid'];
-fs.mkdirSync(UPLOADS, { recursive: true });
+const isPgUrl = u => /^postgres(ql)?:\/\//.test(u || '');
+if (process.env.SUPABASE_DB_URL && !isPgUrl(process.env.SUPABASE_DB_URL)) console.error('[db] SUPABASE_DB_URL is not a postgresql:// connection string; ignoring it');
+const DB_URL = [process.env.SUPABASE_DB_URL, process.env.DATABASE_URL, process.env.POSTGRES_URL].find(isPgUrl) || '';
+const pool = DB_URL ? new (require('pg').Pool)({
+  connectionString: DB_URL.replace(/[?&]sslmode=[^&]*/g, ''),
+  // Supabase/Neon require TLS; their poolers present certificates Node can't verify against its default CA bundle.
+  ssl: /localhost|127\.0\.0\.1/.test(DB_URL) ? false : { rejectUnauthorized: false },
+  max: 5, idleTimeoutMillis: 10000, connectionTimeoutMillis: 10000,
+}) : null;
+const txStore = new (require('async_hooks').AsyncLocalStorage)();
+if (!pool) fs.mkdirSync(UPLOADS, { recursive: true });
 
 /* ---------- helpers ---------- */
 const hashPw = (pw, salt) => crypto.scryptSync(pw, salt, 64).toString('hex');
@@ -30,8 +40,12 @@ const dayDiff = s => Math.round((new Date(s + 'T00:00:00') - new Date(ymd(new Da
 const str = (v, max = 5000) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/* ---------- database (JSON file, written on every change) ---------- */
-let db;
+/* ---------- database ----------
+ * With SUPABASE_DB_URL (or DATABASE_URL) the whole document lives in one Postgres row shared by every
+ * serverless instance. Reads re-fetch it only when its version changed; each mutating request
+ * holds a row lock, so concurrent writes from different instances can never overwrite each other.
+ * Without a database URL it falls back to a local JSON file. */
+let db, dbVersion = 0;
 function load() {
   if (fs.existsSync(DB_FILE)) db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
   else { db = bundledDb() || seed(hashPw, ADMIN_PASSWORD); save(true); }
@@ -43,12 +57,84 @@ function bundledDb() {
   try { return JSON.parse(JSON.stringify(require('./data/db.json'))); } catch { return null; }
 }
 function save(skipSync) {
-  const tmp = DB_FILE + '.tmp';
-  fs.writeFileSync(tmp, JSON.stringify(db, null, 1));
-  fs.renameSync(tmp, DB_FILE);
+  if (pool) {
+    const tx = txStore.getStore();
+    if (tx) tx.dirty = true; else console.error('[db] save() called outside a write request; change not persisted');
+  } else {
+    const tmp = DB_FILE + '.tmp';
+    fs.writeFileSync(tmp, JSON.stringify(db, null, 1));
+    fs.renameSync(tmp, DB_FILE);
+  }
   if (!skipSync) scheduleSync();
 }
-load();
+function putFile(name, buf) { if (!pool) return fs.writeFileSync(path.join(UPLOADS, name), buf); const tx = txStore.getStore(); if (tx) tx.ops.push(['put', name, buf]); }
+function delFile(name) { if (!pool) return fs.rmSync(path.join(UPLOADS, name), { force: true }); const tx = txStore.getStore(); if (tx) tx.ops.push(['del', name]); }
+
+let readyPromise = null;
+function ensureReady() {
+  if (!pool) { if (!db) load(); return Promise.resolve(); }
+  return readyPromise || (readyPromise = (async () => {
+    await pool.query('CREATE TABLE IF NOT EXISTS app_state (id int PRIMARY KEY, version bigint NOT NULL, doc jsonb NOT NULL, updated_at timestamptz NOT NULL DEFAULT now())');
+    await pool.query('CREATE TABLE IF NOT EXISTS uploads (name text PRIMARY KEY, data bytea NOT NULL)');
+    const { rowCount } = await pool.query('SELECT 1 FROM app_state WHERE id = 1');
+    if (!rowCount) {
+      let initial; try { initial = JSON.parse(JSON.stringify(require('./data/db.json'))); } catch { initial = seed(hashPw, ADMIN_PASSWORD); }
+      await pool.query('INSERT INTO app_state (id, version, doc) VALUES (1, 1, $1) ON CONFLICT (id) DO NOTHING', [JSON.stringify(initial)]);
+    }
+  })().catch(e => { readyPromise = null; throw e; }));
+}
+async function syncDb(client, lock) {
+  const { rows } = await client.query(`SELECT version, CASE WHEN version <> $1 THEN doc END AS doc FROM app_state WHERE id = 1${lock ? ' FOR UPDATE' : ''}`, [dbVersion]);
+  if (rows[0].doc) { db = rows[0].doc; db.sessions = db.sessions || {}; }
+  dbVersion = Number(rows[0].version);
+}
+const WRITE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
+async function dbMiddleware(req, res, next) {
+  try {
+    await ensureReady();
+    if (!pool) return next();
+    if (!WRITE_METHODS.has(req.method)) { await syncDb(pool); res.set('X-Data-Version', String(dbVersion)); return next(); }
+    const client = await pool.connect();
+    try { await client.query('BEGIN'); await syncDb(client, true); } catch (e) { client.release(true); throw e; }
+    const tx = { dirty: false, ops: [] };
+    let settled = false;
+    const origJson = res.json.bind(res);
+    res.json = body => {
+      res.json = origJson; settled = true;
+      const commit = tx.dirty && res.statusCode < 500;
+      const payload = commit ? JSON.stringify(db) : null;
+      (async () => {
+        try {
+          if (commit) {
+            for (const [op, name, buf] of tx.ops) {
+              if (op === 'put') await client.query('INSERT INTO uploads (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = EXCLUDED.data', [name, buf]);
+              else await client.query('DELETE FROM uploads WHERE name = $1', [name]);
+            }
+            const r = await client.query('UPDATE app_state SET doc = $1, version = version + 1, updated_at = now() WHERE id = 1 RETURNING version', [payload]);
+            await client.query('COMMIT');
+            dbVersion = Number(r.rows[0].version);
+          } else {
+            await client.query('ROLLBACK');
+            dbVersion = 0; // discard any in-memory edits that were not saved
+          }
+          client.release();
+          res.set('X-Data-Version', String(dbVersion));
+          origJson(body);
+        } catch (e) {
+          console.error('[db] commit failed:', e);
+          client.release(true); dbVersion = 0;
+          res.status(500); origJson({ error: 'Could not save your changes. Please try again.' });
+        }
+      })();
+      return res;
+    };
+    res.on('close', () => { if (!settled) { settled = true; client.query('ROLLBACK').catch(() => {}).finally(() => client.release()); dbVersion = 0; } });
+    txStore.run(tx, next);
+  } catch (e) {
+    console.error('[db] request failed:', e);
+    fail(res, 503, 'Database is temporarily unavailable. Please try again.');
+  }
+}
 const orgOf = id => db.orgs.find(o => o.id === id);
 const userOf = id => db.users.find(u => u.id === id);
 const eventOf = id => db.events.find(e => e.id === id);
@@ -126,6 +212,7 @@ const app = express();
 app.use(express.json({ limit: '6mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 const fail = (res, code, error, fields) => res.status(code).json({ error, fields });
+app.use('/api', dbMiddleware);
 
 app.use((req, res, next) => {
   const sid = parseCookies(req.headers.cookie).sid;
@@ -267,7 +354,7 @@ app.post('/api/events/:id/register', need, (req, res) => {
 });
 function removeMember(e, t, userId) {
   t.members = t.members.filter(m => m !== userId);
-  if (!t.members.length) { db.submissions = db.submissions.filter(s => { if (s.teamId === t.id) { if (s.file) fs.rmSync(path.join(UPLOADS, s.file), { force: true }); return false; } return true; }); db.teams = db.teams.filter(x => x.id !== t.id); }
+  if (!t.members.length) { db.submissions = db.submissions.filter(s => { if (s.teamId === t.id) { if (s.file) delFile(s.file); return false; } return true; }); db.teams = db.teams.filter(x => x.id !== t.id); }
   else if (t.leaderId === userId) t.leaderId = t.members[0];
 }
 app.delete('/api/events/:id/register', need, (req, res) => {
@@ -299,15 +386,19 @@ app.post('/api/events/:id/submissions', need, (req, res) => {
   if (Object.keys(f).length) return fail(res, 400, 'Please fix the highlighted fields.', f);
   let s = db.submissions.find(x => x.teamId === t.id && x.roundIndex === e.currentRound);
   if (!s) { s = { id: uid('s_'), eventId: e.id, teamId: t.id, roundIndex: e.currentRound }; db.submissions.push(s); }
-  if (buf) { if (s.file) fs.rmSync(path.join(UPLOADS, s.file), { force: true }); s.file = s.id + '.' + ext; s.fileName = String(file.name).replace(/[^\w.\- ]/g, '_').slice(0, 80); fs.writeFileSync(path.join(UPLOADS, s.file), buf); }
+  if (buf) { if (s.file) delFile(s.file); s.file = s.id + '.' + ext; s.fileName = String(file.name).replace(/[^\w.\- ]/g, '_').slice(0, 80); putFile(s.file, buf); }
   Object.assign(s, { link, note, submittedAt: new Date().toISOString(), submittedBy: req.user.id });
   save(); res.json({ submission: subView(s) });
 });
-app.get('/api/submissions/:id/file', need, (req, res) => {
+app.get('/api/submissions/:id/file', need, (req, res, next) => {
   const s = db.submissions.find(x => x.id === req.params.id); if (!s || !s.file) return fail(res, 404, 'File not found.');
   const e = eventOf(s.eventId), t = db.teams.find(x => x.id === s.teamId);
   if (!(canManage(req.user, e) || (t && t.members.includes(req.user.id)))) return fail(res, 403, 'Not allowed.');
-  res.download(path.join(UPLOADS, s.file), s.fileName);
+  if (!pool) return res.download(path.join(UPLOADS, s.file), s.fileName);
+  pool.query('SELECT data FROM uploads WHERE name = $1', [s.file]).then(({ rows }) => {
+    if (!rows[0]) return fail(res, 404, 'File not found.');
+    res.attachment(s.fileName); res.send(rows[0].data);
+  }).catch(next);
 });
 
 app.get('/api/me/activity', need, (req, res) => {
@@ -406,7 +497,7 @@ app.patch('/api/admin/events/:id', needAdmin, (req, res) => {
 });
 app.delete('/api/admin/events/:id', needAdmin, (req, res) => {
   const e = eventOf(req.params.id); if (!e) return fail(res, 404, 'Event not found.'); if (!canManage(req.user, e)) return fail(res, 403, 'Not your event.');
-  db.submissions.filter(s => s.eventId === e.id && s.file).forEach(s => fs.rmSync(path.join(UPLOADS, s.file), { force: true }));
+  db.submissions.filter(s => s.eventId === e.id && s.file).forEach(s => delFile(s.file));
   db.submissions = db.submissions.filter(s => s.eventId !== e.id); db.teams = db.teams.filter(t => t.eventId !== e.id);
   db.saved = db.saved.filter(s => s.eventId !== e.id); db.events = db.events.filter(x => x !== e); save(); res.json({ ok: true });
 });
@@ -435,7 +526,7 @@ app.put('/api/admin/teams/:id', needAdmin, (req, res) => {
 app.delete('/api/admin/teams/:id', needAdmin, (req, res) => {
   const t = db.teams.find(x => x.id === req.params.id); if (!t) return fail(res, 404, 'Team not found.');
   if (!canManage(req.user, eventOf(t.eventId))) return fail(res, 403, 'Not your event.');
-  db.submissions.filter(s => s.teamId === t.id && s.file).forEach(s => fs.rmSync(path.join(UPLOADS, s.file), { force: true }));
+  db.submissions.filter(s => s.teamId === t.id && s.file).forEach(s => delFile(s.file));
   db.submissions = db.submissions.filter(s => s.teamId !== t.id); db.teams = db.teams.filter(x => x !== t); save(); res.json({ ok: true });
 });
 app.delete('/api/admin/teams/:id/members/:userId', needAdmin, (req, res) => {
@@ -513,6 +604,7 @@ app.post('/api/admin/sync', needAdmin, async (req, res) => {
   res.json({ sync: await runSync() });
 });
 
+app.get('/api/version', (req, res) => { res.set('Cache-Control', 'no-store'); res.json({ version: dbVersion }); });
 app.use('/api', (req, res) => fail(res, 404, 'Not found.'));
 app.use((err, req, res, next) => { console.error(err); fail(res, err.type === 'entity.too.large' ? 413 : 500, err.type === 'entity.too.large' ? 'Upload too large.' : 'Something went wrong on the server.'); });
 if (!ON_VERCEL) app.listen(PORT, () => { console.log(`CampusConnect running on http://localhost:${PORT}`); if (SHEETS_URL) scheduleSync(); });
