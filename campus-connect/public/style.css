@@ -84,6 +84,8 @@ body.has-side:not(.side-open) .search input::placeholder{color:transparent}
 /* user + logout pinned to the bottom */
 body.has-side .userchip{margin:auto 0 0;display:flex;flex-direction:column;align-items:stretch;gap:2px;padding-top:10px;border-top:1px solid var(--line)}
 .sb-account{height:48px;padding:0 6px;gap:12px}
+body.has-side:not(.side-open) .sb-account{justify-content:center;padding:0;gap:0}
+body.has-side:not(.side-open) .sb-account .lbl{display:none}
 .sb-account .avatar{transition:box-shadow .15s}
 .sb-account:hover .avatar,.sb-account[aria-expanded=true] .avatar{box-shadow:inset 0 0 0 2px var(--acc)}
 .sb-account[aria-expanded=true]{background:var(--acc-soft)}
@@ -117,7 +119,7 @@ body.side-open .sb-toggle .sb-ico{transform:scaleX(-1)}
 .links{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
 .userchip{display:flex;align-items:center;gap:10px;font-size:.86rem;line-height:1.25;font-weight:550}
 .userchip small{font-family:var(--mono);font-size:.7rem;font-weight:500;color:var(--mut)}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--acc-soft);color:var(--acc-deep);box-shadow:inset 0 0 0 1.5px var(--acc-light);display:grid;place-items:center;font:italic 700 1rem var(--serif)}
+.avatar{width:32px;height:32px;min-width:32px;flex:0 0 32px;aspect-ratio:1;border-radius:50%;background:var(--acc-soft);color:var(--acc-deep);box-shadow:inset 0 0 0 1.5px var(--acc-light);display:grid;place-items:center;font:italic 700 1rem var(--serif)}
 
 /* ---------- announcement ---------- */
 .ann{padding:9px 20px;font-size:.9rem;font-weight:500;display:flex;gap:14px;align-items:center;justify-content:center;text-align:center;background:var(--acc-soft);color:var(--acc-deep);border-bottom:1px solid var(--line);overflow:hidden}
