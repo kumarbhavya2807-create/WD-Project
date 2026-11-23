@@ -75,7 +75,7 @@ async function loadCore() {
 function renderNav() {
   const u = state.user, h = location.hash || '#/';
   const on = p => (h === p || (p !== '#/' && h.startsWith(p)) ? 'on' : '');
-  $('#nav').innerHTML = `<div class="nav"><div class="nav-in"><a class="brand" href="#/"><span class="logo">C</span>CampusConnect</a>
+  $('#nav').innerHTML = `<div class="nav"><div class="nav-in"><a class="brand" href="#/"><span class="logo">E</span>Eventure</a>
   ${u ? `<div class="search"><input id="gsearch" placeholder="Search events, clubs, venues…" value="${esc(state.q)}" aria-label="Search"></div>
   <nav class="links"><a href="#/" class="${h === '#/' || h.startsWith('#/event/') ? 'on' : ''}">Official events</a><a href="#/meetups" class="${on('#/meetups')}">Student meetups</a><a href="#/host" class="${on('#/host')}">Host a meetup</a><a href="#/activity" class="${on('#/activity')}">My activity</a>${isAdmin() ? `<a href="#/admin" class="${on('#/admin')}">Admin</a>` : ''}</nav>
   <div class="userchip right"><span class="avatar">${esc(u.name[0])}</span><span>${esc(u.name)}<br><small class="mut">${u.role === 'student' ? esc(u.collegeId) : esc(u.orgName || 'Super admin')}</small></span><button class="btn sm" data-act="logout">Log out</button></div>` : ''}</div></div>`;
@@ -158,7 +158,7 @@ function viewAuth(mode) {
     return clean(e);
   }, async d => {
     const r = await api('POST', reg ? '/api/register' : '/api/login', { ...d, captchaId: f.dataset.cid });
-    state.user = r.user; await loadCore(); toast(reg ? 'Welcome to CampusConnect!' : 'Signed in', 'ok'); location.hash = '#/'; route();
+    state.user = r.user; await loadCore(); toast(reg ? 'Welcome to Eventure!' : 'Signed in', 'ok'); location.hash = '#/'; route();
   }); });
 }
 
