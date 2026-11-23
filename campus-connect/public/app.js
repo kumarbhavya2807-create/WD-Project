@@ -12,7 +12,8 @@ const left = n => n < 0 ? 'Ended' : n === 0 ? 'Last day' : n === 1 ? '1 day left
 const isAdmin = () => state.user && state.user.role !== 'student';
 
 async function api(method, url, body) {
-  const r = await fetch(url, { method, headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
+  const r = await fetch(url, { method, headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined, cache: 'no-store' });
+  const v = Number(r.headers.get('X-Data-Version')); if (v) state.version = v;
   const j = await r.json().catch(() => ({}));
   if (!r.ok) {
     if (r.status === 401 && state.user) { state.user = null; renderNav(); location.hash = '#/login'; }
@@ -113,6 +114,25 @@ async function route() {
   } catch (e) { app.innerHTML = `<div class="wrap"><div class="empty"><h2>Something went wrong</h2><p>${esc(e.message)}</p><a href="#/">Back to events</a></div></div>`; }
 }
 window.addEventListener('hashchange', () => { window.scrollTo(0, 0); route(); });
+
+/* auto-refresh: a tiny version check; the page re-renders only when data actually changed */
+const REFRESH_MS = 15000;
+function isBusy() {
+  const a = document.activeElement;
+  return !!document.querySelector('.ov') || (a && a.matches('input,textarea,select') && a.id !== 'gsearch');
+}
+async function checkForUpdates() {
+  if (document.hidden || !state.user || state.refreshing || isBusy()) return;
+  try {
+    const known = state.version;
+    const { version } = await api('GET', '/api/version');
+    if (!known || !version || version === known || isBusy()) return;
+    state.refreshing = true; const y = window.scrollY;
+    await route(); window.scrollTo(0, y);
+  } catch {} finally { state.refreshing = false; }
+}
+setInterval(checkForUpdates, REFRESH_MS);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkForUpdates(); });
 
 /* ============ auth ============ */
 function viewAuth(mode) {
