@@ -6,7 +6,11 @@ const path = require('path');
 const { seed } = require('./seed');
 
 const PORT = process.env.PORT || 3000;
-const DATA = process.env.DATA_DIR || path.join(__dirname, 'data');
+const ON_VERCEL = !!process.env.VERCEL;
+// Vercel's deployment filesystem is read-only; only /tmp is writable (and it is per-instance, not persistent).
+const DATA = process.env.DATA_DIR || (ON_VERCEL ? path.join('/tmp', 'campus-connect') : path.join(__dirname, 'data'));
+const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
+const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET || SESSION_SECRET;
 const DB_FILE = path.join(DATA, 'db.json');
 const UPLOADS = path.join(DATA, 'uploads');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin@123';
@@ -30,7 +34,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 let db;
 function load() {
   if (fs.existsSync(DB_FILE)) db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
-  else { db = seed(hashPw, ADMIN_PASSWORD); save(true); }
+  else { db = bundledDb() || seed(hashPw, ADMIN_PASSWORD); save(true); }
+  db.sessions = db.sessions || {};
+}
+function bundledDb() {
+  if (!ON_VERCEL) return null;
+  // Static require so Vercel bundles the committed data file with the function.
+  try { return JSON.parse(JSON.stringify(require('./data/db.json'))); } catch { return null; }
 }
 function save(skipSync) {
   const tmp = DB_FILE + '.tmp';
@@ -84,6 +94,8 @@ if (process.argv.includes('--dump')) { console.log(JSON.stringify(buildTables())
 
 /* ---------- sessions, captcha, rate limiting ---------- */
 const parseCookies = h => Object.fromEntries((h || '').split(';').map(c => c.trim().split('=')).filter(p => p[0]).map(([k, ...v]) => [k, decodeURIComponent(v.join('='))]));
+const hmac = (key, data) => crypto.createHmac('sha256', key).update(data).digest('hex');
+const safeEq = (a, b) => { const x = Buffer.from(String(a)), y = Buffer.from(String(b)); return x.length === y.length && crypto.timingSafeEqual(x, y); };
 const captchas = new Map();
 function makeCaptcha() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -93,14 +105,18 @@ function makeCaptcha() {
   for (let i = 0; i < 6; i++) svg += `<line x1="${rnd(0, 150)}" y1="${rnd(0, 50)}" x2="${rnd(0, 150)}" y2="${rnd(0, 50)}" stroke="hsl(${rnd(200, 280)},50%,65%)" stroke-width="1.5"/>`;
   [...text].forEach((c, i) => { svg += `<text x="${14 + i * 26}" y="${rnd(32, 40)}" font-family="monospace" font-weight="bold" font-size="${rnd(26, 32)}" fill="hsl(${rnd(200, 280)},60%,30%)" transform="rotate(${rnd(-22, 22)} ${20 + i * 26} 28)">${c}</text>`; });
   svg += '</svg>';
-  const id = crypto.randomBytes(8).toString('hex');
-  captchas.set(id, { text, exp: Date.now() + 5 * 60e3 });
-  for (const [k, v] of captchas) if (v.exp < Date.now()) captchas.delete(k);
-  return { id, svg };
+  // Signed, self-contained token so any serverless instance can verify it.
+  const exp = Date.now() + 5 * 60e3, nonce = crypto.randomBytes(8).toString('hex');
+  const id = `${nonce}.${exp}.${hmac(CAPTCHA_SECRET, `${nonce}.${exp}.${text}`)}`;
+  for (const [k, v] of captchas) if (v < Date.now()) captchas.delete(k);
+  return { id, svg, text };
 }
 function checkCaptcha(id, input) {
-  const c = captchas.get(id); captchas.delete(id);
-  return !!c && c.exp > Date.now() && typeof input === 'string' && input.trim().toUpperCase() === c.text;
+  if (typeof id !== 'string' || typeof input !== 'string') return false;
+  const [nonce, exp, sig] = id.split('.');
+  if (!nonce || !sig || !(Number(exp) > Date.now()) || captchas.has(nonce)) return false;
+  captchas.set(nonce, Number(exp));
+  return safeEq(sig, hmac(CAPTCHA_SECRET, `${nonce}.${exp}.${input.trim().toUpperCase()}`));
 }
 const fails = new Map();
 const locked = email => { const f = fails.get(email); return f && f.n >= 5 && Date.now() - f.t < 10 * 60e3; };
@@ -113,8 +129,7 @@ const fail = (res, code, error, fields) => res.status(code).json({ error, fields
 
 app.use((req, res, next) => {
   const sid = parseCookies(req.headers.cookie).sid;
-  const s = sid && db.sessions[sid];
-  if (s && s.exp > Date.now()) req.user = userOf(s.userId);
+  req.user = readSession(sid);
   req.sid = sid;
   next();
 });
@@ -125,7 +140,7 @@ const canManage = (u, e) => u.role === 'superadmin' || (u.role === 'admin' && u.
 const pub = u => ({ id: u.id, name: u.name, email: u.email, collegeId: u.collegeId, role: u.role, orgId: u.orgId, orgName: orgOf(u.orgId)?.name || null });
 
 /* ----- auth ----- */
-app.get('/api/captcha', (req, res) => { const c = makeCaptcha(); if (process.env.CAPTCHA_DEBUG === '1') c.debugText = captchas.get(c.id).text; res.json(c); });
+app.get('/api/captcha', (req, res) => { const { text, ...c } = makeCaptcha(); if (process.env.CAPTCHA_DEBUG === '1') c.debugText = text; res.json(c); });
 
 function pwProblem(pw) {
   if (typeof pw !== 'string' || pw.length < 8) return 'Password must be at least 8 characters.';
@@ -151,12 +166,19 @@ app.post('/api/register', (req, res) => {
   startSession(res, u);
   res.json({ user: pub(u) });
 });
+// Signed session cookie (userId.exp.sig). Signing over the password hash means a password change/reset logs out old sessions.
+const sessionSig = (u, exp) => hmac(SESSION_SECRET, `${u.id}.${exp}.${u.hash}`);
+function readSession(sid) {
+  if (typeof sid !== 'string') return undefined;
+  const [userId, exp, sig] = sid.split('.');
+  const u = userId && userOf(userId);
+  if (!u || !(Number(exp) > Date.now()) || !safeEq(sig, sessionSig(u, exp))) return undefined;
+  return u;
+}
+const SECURE = ON_VERCEL || process.env.NODE_ENV === 'production' ? '; Secure' : '';
 function startSession(res, u) {
-  const sid = crypto.randomBytes(24).toString('hex');
-  db.sessions[sid] = { userId: u.id, exp: Date.now() + 7 * 864e5 };
-  for (const k in db.sessions) if (db.sessions[k].exp < Date.now()) delete db.sessions[k];
-  save(true);
-  res.setHeader('Set-Cookie', `sid=${sid}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${7 * 86400}`);
+  const exp = Date.now() + 7 * 864e5;
+  res.setHeader('Set-Cookie', `sid=${u.id}.${exp}.${sessionSig(u, exp)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${7 * 86400}${SECURE}`);
 }
 app.post('/api/login', (req, res) => {
   const email = str(req.body.email, 120).toLowerCase(), pw = req.body.password;
@@ -174,7 +196,7 @@ app.post('/api/login', (req, res) => {
   startSession(res, u);
   res.json({ user: pub(u) });
 });
-app.post('/api/logout', (req, res) => { if (req.sid) { delete db.sessions[req.sid]; save(true); } res.setHeader('Set-Cookie', 'sid=; Max-Age=0; Path=/'); res.json({ ok: true }); });
+app.post('/api/logout', (req, res) => { res.setHeader('Set-Cookie', `sid=; HttpOnly; SameSite=Lax; Max-Age=0; Path=/${SECURE}`); res.json({ ok: true }); });
 app.get('/api/me', (req, res) => res.json({ user: req.user ? pub(req.user) : null }));
 app.post('/api/me/password', need, (req, res) => {
   const { current, password } = req.body;
@@ -493,4 +515,5 @@ app.post('/api/admin/sync', needAdmin, async (req, res) => {
 
 app.use('/api', (req, res) => fail(res, 404, 'Not found.'));
 app.use((err, req, res, next) => { console.error(err); fail(res, err.type === 'entity.too.large' ? 413 : 500, err.type === 'entity.too.large' ? 'Upload too large.' : 'Something went wrong on the server.'); });
-app.listen(PORT, () => { console.log(`CampusConnect running on http://localhost:${PORT}`); if (SHEETS_URL) scheduleSync(); });
+if (!ON_VERCEL) app.listen(PORT, () => { console.log(`CampusConnect running on http://localhost:${PORT}`); if (SHEETS_URL) scheduleSync(); });
+module.exports = app;
